@@ -155,8 +155,9 @@ replace, 8 replaced, ...), BitfieldFlowIndicator u8 @93, UserData @94.
 
 Modify/cancel ack `0x0271` (also the unsolicited out "UROUT"): TransactTime @4, SymbolID
 @12, MPID @16, OrderID @20, RefClOrdID @28, OrigClOrdID @36, Price @44, OrderQty @52,
-LeavesQty @56, Side u8 @60, LocateReqd u8 @61, then ReasonCode/AckType (5 pending cancel,
-7 pending modify, 9 modified, 11 canceled, 12 done for day) and UserData.
+LeavesQty @56, Side u8 @60, LocateReqd u8 @61, ReasonCode u16 @62, AckType u8 @64 (5 pending
+cancel, 7 pending modify, 9 modified, 11 canceled, 12 done for day), BitfieldFlowIndicator
+u8 @65, UserData zchar(8) @66.
 
 Execution report `0x0290`: TransactTime @4, SymbolID @12, MPID @16, OrderID u64 @20,
 ClOrdID u64 @28, DealID u64 @36 (shared by both sides, maps to XDP trade id), LastPx @44,
@@ -189,6 +190,9 @@ A minimal `nyse-sim` gateway must implement:
 Out of scope: DMM and floor broker messages, risk controls, routing, pegs, retail,
 cross orders, trade bust/correct, drop copies.
 
-Not verified: the full Session Configuration Ack layout and the exact byte offsets of
-ReasonCode/AckType/UserData in `0x0271` past offset 61 (the PDF table wraps); reason code and
-liquidity indicator values live in a spreadsheet that was not read.
+Session Configuration Ack `0x0221` begins TransactTime @4, UserSessionType u8 @12,
+UserSessionStatus u8 @13, Username char(16) @14, MIC char(4) @30, CancelOnDisconnect u8 @34;
+the rest of its 98 bytes echoes the request settings.
+
+Not verified: reason code and liquidity indicator values (they live in a spreadsheet that
+was not read); the tail of the Session Configuration Ack past offset 34.
