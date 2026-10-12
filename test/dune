@@ -1,0 +1,8 @@
+(library
+ (name equities_core_test)
+ (inline_tests
+  (flags
+   (:standard -source-tree-root .)))
+ (libraries core equities-core exchange-core fixed-decimal)
+ (preprocess
+  (pps ppx_jane)))

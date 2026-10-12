@@ -1,0 +1,6 @@
+(library
+ (name equities_core)
+ (public_name equities-core)
+ (libraries core fixed-decimal exchange-core)
+ (preprocess
+  (pps ppx_jane)))
