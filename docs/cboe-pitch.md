@@ -20,9 +20,10 @@ TCP-only simulator should speak. Order entry is BOE or FIX, never PITCH.
 - Time Offset: `u32` ns since the last Time message of the unit.
 - Every message: `Length u8` (including itself), `MessageType u8`. Clients skip unknown
   types and ignore trailing bytes (messages may grow).
-- Long vs short variants: a sender picks short (`u16` qty, short price, 6-char symbol) when
-  quantity < 65,536 and price fits two decimals below $655.36; otherwise long. Expanded
-  variants carry 8-char symbols.
+- Long vs short variants: short messages carry a `u16` quantity and a 2-decimal `u16` price,
+  so they can only describe orders that fit; long messages always work. Expanded variants
+  carry 8-char symbols. The spec does not state when Cboe chooses each; a simulator can
+  always send long or expanded.
 
 ### Sequenced Unit Header (8 bytes)
 
