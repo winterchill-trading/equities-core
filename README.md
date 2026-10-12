@@ -50,3 +50,7 @@ opam exec --switch 5.2.0+ox -- dune build @all @runtest
 ```
 
 Depends on `core`, `fixed-decimal` and `exchange-core`.
+
+CI installs the pinned siblings and the opam dependencies through the shared
+[ox-setup](https://github.com/winterchill-trading/infra/blob/main/docs/ci.md) action, which
+caches the built opam switch between runs.
